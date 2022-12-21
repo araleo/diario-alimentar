@@ -11,6 +11,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'prettier',
+    'plugin:react/jsx-runtime',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -25,12 +26,13 @@ module.exports = {
     'prettier/prettier': 'error',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'import/extensions': 0,
+    'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
+    'no-console': [2, { allow: ['warn', 'error'] }],
     'react/function-component-definition': [
       2,
       { namedComponents: 'arrow-function' },
     ],
-    'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
-    'no-console': [2, { allow: ['warn', 'error'] }],
   },
   settings: {
     'import/resolver': {

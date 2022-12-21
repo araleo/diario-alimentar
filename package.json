@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev:api": "yarn workspace @diario-alimentar/server dev",
+    "dev:mobile": "yarn workspace @diario-alimentar/mobile start",
+    "dev:web": "yarn workspace @diario-alimentar/web start"
   },
   "private": true,
   "workspaces": {
