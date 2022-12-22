@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import App from '../App';
+import Title from '../../../components/Title/Title';
 
-describe('App component tests', () => {
-  test('App renders', () => {
-    render(<App />);
+describe('Title component tests', () => {
+  test('Title renders', () => {
+    render(<Title />);
     const title = screen.getByText('Diário Alimentar');
     expect(title).toBeInTheDocument();
   });

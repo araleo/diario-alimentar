@@ -29,6 +29,7 @@ module.exports = {
     'import/extensions': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
     'no-console': [2, { allow: ['warn', 'error'] }],
+    'react/jsx-props-no-spreading': 0,
     'react/function-component-definition': [
       2,
       { namedComponents: 'arrow-function' },
