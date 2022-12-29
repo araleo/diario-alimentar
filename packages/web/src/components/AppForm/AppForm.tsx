@@ -1,28 +1,42 @@
-import TextField from '@mui/material/TextField';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import dayjs, { Dayjs } from 'dayjs';
-import Autocomplete from '@mui/material/Autocomplete';
-import { DateTimePicker } from '@mui/x-date-pickers';
-import { useState } from 'react';
+import dayjs from 'dayjs';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
-type FormData = {
-  datetime: Dayjs | null;
-  quantity: string;
-  meal: string;
-};
+import TextInput from '../Input/TextInput';
+import DateTimeInput from '../Input/DateTimeInput';
+import CheckboxInput from '../Input/CheckboxInput';
+import { MealData } from '../../@types/meal-data';
+
+type FormData = MealData;
 
 const defaultValues: FormData = {
-  datetime: null,
+  id: '',
+  datetime: dayjs().toString(),
   quantity: '',
   meal: '',
+  where: '',
+  who: '',
+  wasWanted: false,
+  wanted: '',
+  hunger: '',
+  reason: '',
+  feeling: '',
 };
 
 const schema = z.object({
   datetime: z.string(),
   quantity: z.string().min(1, { message: 'Required' }),
-  meal: z.string(),
+  meal: z.string().min(1, { message: 'Required' }),
+  where: z.string().min(1, { message: 'Required' }),
+  who: z.string().min(1, { message: 'Required' }),
+  wasWanted: z.boolean(),
+  wanted: z.string().min(1, { message: 'Required' }),
+  hunger: z.string().min(1, { message: 'Required' }),
+  reason: z.string().min(1, { message: 'Required' }),
+  feeling: z.string().min(1, { message: 'Required' }),
 });
 
 const AppForm = () => {
@@ -38,58 +52,78 @@ const AppForm = () => {
   // eslint-disable-next-line
   const onSubmit = (data: FormData) => console.log(data);
 
-  const [value, setValue] = useState<Dayjs | null>(dayjs());
-
-  const handleChange = (newValue: Dayjs | null) => {
-    setValue(newValue);
-  };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name='datetime'
-        control={control}
-        render={({ field }) => (
-          <DateTimePicker
-            label='Dia e hora'
-            inputFormat='DD-MM-YYYY HH:mm'
-            value={value}
-            onChange={handleChange}
-            renderInput={params => <TextField {...params} {...field} />}
-          />
-        )}
-      />
+      <Stack>
+        <DateTimeInput
+          label='Dia e Hora'
+          controllerProps={{
+            name: 'datetime',
+            control,
+            defaultValue: dayjs().toString(),
+          }}
+          textFieldProps={{ sx: { width: '50%' } }}
+        />
 
-      <Controller
-        name='meal'
-        control={control}
-        render={({ field }) => (
-          <Autocomplete
-            freeSolo
-            options={['123', '456', '789']}
-            renderInput={params => (
-              <TextField {...field} {...params} label='Alimento' />
-            )}
-          />
-        )}
-      />
+        <TextInput
+          controllerProps={{ name: 'meal', control }}
+          fieldProps={{ label: 'Alimento' }}
+          fieldError={errors.meal}
+        />
 
-      <Controller
-        name='quantity'
-        control={control}
-        render={({ field }) => (
-          <TextField
-            size='small'
-            label='Quantidade'
-            error={!!errors.quantity?.message}
-            helperText={errors.quantity?.message}
-            {...field}
-          />
-        )}
-      />
+        <TextInput
+          controllerProps={{ name: 'quantity', control }}
+          fieldProps={{ label: 'Quantidade' }}
+          fieldError={errors.quantity}
+        />
 
-      <button type='submit'>Submit</button>
+        <TextInput
+          controllerProps={{ name: 'where', control }}
+          fieldProps={{ label: 'Onde' }}
+          fieldError={errors.where}
+        />
+
+        <TextInput
+          controllerProps={{ name: 'who', control }}
+          fieldProps={{ label: 'Com quem' }}
+          fieldError={errors.who}
+        />
+
+        <CheckboxInput
+          label='Comi o que gostaria?'
+          controllerProps={{ name: 'wasWanted', control }}
+        />
+
+        <TextInput
+          controllerProps={{ name: 'wanted', control }}
+          fieldProps={{ label: 'O que gostaria' }}
+          fieldError={errors.wanted}
+        />
+
+        <TextInput
+          controllerProps={{ name: 'hunger', control }}
+          fieldProps={{ label: 'O quanto estava com fome' }}
+          fieldError={errors.hunger}
+        />
+
+        <TextInput
+          controllerProps={{ name: 'reason', control }}
+          fieldProps={{ label: 'Motivo ou gatilho' }}
+          fieldError={errors.reason}
+        />
+
+        <TextInput
+          controllerProps={{ name: 'feeling', control }}
+          fieldProps={{ label: 'Como me senti' }}
+          fieldError={errors.reason}
+        />
+
+        <Button type='submit' variant='contained'>
+          Enviar
+        </Button>
+      </Stack>
     </form>
   );
 };
+
 export default AppForm;
