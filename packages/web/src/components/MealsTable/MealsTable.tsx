@@ -1,9 +1,7 @@
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Paper from '@mui/material/Paper';
-import Switch from '@mui/material/Switch';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -24,7 +22,6 @@ const MealsTable = () => {
   const [orderBy, setOrderBy] = useState<keyof MealData>('datetime');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState<number>(0);
-  const [dense, setDense] = useState<boolean>(false);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
   const handleRequestSort = (_: MouseEvent<unknown>, prop: keyof MealData) => {
@@ -71,10 +68,6 @@ const MealsTable = () => {
     setPage(0);
   };
 
-  const handleChangeDense = (event: ChangeEvent<HTMLInputElement>) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -86,11 +79,7 @@ const MealsTable = () => {
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableToolbar numSelected={selected.length} />
         <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby='tableTitle'
-            size={dense ? 'small' : 'medium'}
-          >
+          <Table sx={{ minWidth: 750 }}>
             <AppTableHead
               numSelected={selected.length}
               order={order}
@@ -134,11 +123,7 @@ const MealsTable = () => {
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
+                <TableRow style={{ height: 33 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
@@ -155,10 +140,6 @@ const MealsTable = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label='Dense padding'
-      />
     </Box>
   );
 };

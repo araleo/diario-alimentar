@@ -7,8 +7,8 @@ export type HeadCell = {
 
 export const HEAD_CELLS: readonly HeadCell[] = [
   { id: 'datetime', label: 'Dia e Hora' },
-  { id: 'quantity', label: 'Quantidade' },
   { id: 'meal', label: 'Alimento' },
+  { id: 'quantity', label: 'Quantidade' },
   { id: 'where', label: 'Onde' },
   { id: 'who', label: 'Com quem' },
   { id: 'wasWanted', label: 'Comi o que queria?' },

@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
@@ -9,6 +9,11 @@ import TextInput from '../Input/TextInput';
 import DateTimeInput from '../Input/DateTimeInput';
 import CheckboxInput from '../Input/CheckboxInput';
 import { MealData } from '../../@types/meal-data';
+import SpaceBetweenBox from '../UI/containers/SpaceBetweenBox';
+import FlexRowBox from '../UI/containers/FlexRowBox';
+import { BUTTONS, ERRORS, LABELS } from '../../constants/texts';
+import SpaceAroundBox from '../UI/containers/SpaceAroundBox';
+import AppIconButton from '../UI/AppIconButton/AppIconButton';
 
 type FormData = MealData;
 
@@ -28,101 +33,125 @@ const defaultValues: FormData = {
 
 const schema = z.object({
   datetime: z.string(),
-  quantity: z.string().min(1, { message: 'Required' }),
-  meal: z.string().min(1, { message: 'Required' }),
-  where: z.string().min(1, { message: 'Required' }),
-  who: z.string().min(1, { message: 'Required' }),
+  quantity: z.string().min(1, { message: ERRORS.required }),
+  meal: z.string().min(1, { message: ERRORS.required }),
+  where: z.string().min(1, { message: ERRORS.required }),
+  who: z.string().min(1, { message: ERRORS.required }),
   wasWanted: z.boolean(),
-  wanted: z.string().min(1, { message: 'Required' }),
-  hunger: z.string().min(1, { message: 'Required' }),
-  reason: z.string().min(1, { message: 'Required' }),
-  feeling: z.string().min(1, { message: 'Required' }),
+  wanted: z.string().min(1, { message: ERRORS.required }),
+  hunger: z.string().min(1, { message: ERRORS.required }),
+  reason: z.string().min(1, { message: ERRORS.required }),
+  feeling: z.string().min(1, { message: ERRORS.required }),
 });
 
-const AppForm = () => {
+type Props = {
+  toggleForm: () => void;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const AppForm = ({ toggleForm }: Props) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     defaultValues,
     resolver: zodResolver(schema),
   });
 
+  const wasWanted = useWatch({ control, name: 'wasWanted' });
+
   // eslint-disable-next-line
   const onSubmit = (data: FormData) => console.log(data);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack>
+    <>
+      <AppIconButton
+        icon='close'
+        buttonProps={{ onClick: toggleForm, sx: { float: 'right' } }}
+      />
+      <form onSubmit={handleSubmit(onSubmit)}>
         <DateTimeInput
-          label='Dia e Hora'
+          label={LABELS.datetime}
           controllerProps={{
             name: 'datetime',
             control,
             defaultValue: dayjs().toString(),
           }}
-          textFieldProps={{ sx: { width: '50%' } }}
+          textFieldProps={{ sx: { width: '45%' } }}
         />
+        <SpaceBetweenBox>
+          <Stack sx={{ width: '45%' }}>
+            <TextInput
+              controllerProps={{ name: 'meal', control }}
+              fieldProps={{ label: LABELS.meal }}
+              fieldError={errors.meal}
+            />
 
-        <TextInput
-          controllerProps={{ name: 'meal', control }}
-          fieldProps={{ label: 'Alimento' }}
-          fieldError={errors.meal}
-        />
+            <TextInput
+              controllerProps={{ name: 'quantity', control }}
+              fieldProps={{ label: LABELS.quantity }}
+              fieldError={errors.quantity}
+            />
 
-        <TextInput
-          controllerProps={{ name: 'quantity', control }}
-          fieldProps={{ label: 'Quantidade' }}
-          fieldError={errors.quantity}
-        />
+            <TextInput
+              controllerProps={{ name: 'where', control }}
+              fieldProps={{ label: LABELS.where }}
+              fieldError={errors.where}
+            />
 
-        <TextInput
-          controllerProps={{ name: 'where', control }}
-          fieldProps={{ label: 'Onde' }}
-          fieldError={errors.where}
-        />
+            <TextInput
+              controllerProps={{ name: 'who', control }}
+              fieldProps={{ label: LABELS.whoWith }}
+              fieldError={errors.who}
+            />
+          </Stack>
+          <Stack sx={{ width: '45%' }}>
+            <TextInput
+              controllerProps={{ name: 'hunger', control }}
+              fieldProps={{ label: LABELS.hunger }}
+              fieldError={errors.hunger}
+            />
 
-        <TextInput
-          controllerProps={{ name: 'who', control }}
-          fieldProps={{ label: 'Com quem' }}
-          fieldError={errors.who}
-        />
+            <TextInput
+              controllerProps={{ name: 'reason', control }}
+              fieldProps={{ label: LABELS.reason }}
+              fieldError={errors.reason}
+            />
 
-        <CheckboxInput
-          label='Comi o que gostaria?'
-          controllerProps={{ name: 'wasWanted', control }}
-        />
+            <TextInput
+              controllerProps={{ name: 'feeling', control }}
+              fieldProps={{ label: LABELS.feeling }}
+              fieldError={errors.reason}
+            />
 
-        <TextInput
-          controllerProps={{ name: 'wanted', control }}
-          fieldProps={{ label: 'O que gostaria' }}
-          fieldError={errors.wanted}
-        />
+            <FlexRowBox>
+              <CheckboxInput
+                label={LABELS.wasWanted}
+                controllerProps={{ name: 'wasWanted', control }}
+              />
+              {!wasWanted && (
+                <TextInput
+                  controllerProps={{ name: 'wanted', control }}
+                  fieldProps={{ label: LABELS.wanted, sx: { width: '100' } }}
+                  fieldError={errors.wanted}
+                />
+              )}
+            </FlexRowBox>
+          </Stack>
+        </SpaceBetweenBox>
 
-        <TextInput
-          controllerProps={{ name: 'hunger', control }}
-          fieldProps={{ label: 'O quanto estava com fome' }}
-          fieldError={errors.hunger}
-        />
-
-        <TextInput
-          controllerProps={{ name: 'reason', control }}
-          fieldProps={{ label: 'Motivo ou gatilho' }}
-          fieldError={errors.reason}
-        />
-
-        <TextInput
-          controllerProps={{ name: 'feeling', control }}
-          fieldProps={{ label: 'Como me senti' }}
-          fieldError={errors.reason}
-        />
-
-        <Button type='submit' variant='contained'>
-          Enviar
-        </Button>
-      </Stack>
-    </form>
+        <SpaceAroundBox sx={{ width: '50%', margin: '2rem auto' }}>
+          <Button type='button' variant='outlined' onClick={() => reset()}>
+            {BUTTONS.reset}
+          </Button>
+          <Button type='submit' variant='contained'>
+            {BUTTONS.submit}
+          </Button>
+        </SpaceAroundBox>
+      </form>
+    </>
   );
 };
 

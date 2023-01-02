@@ -54,7 +54,6 @@ const AppTableHead = ({
           <TableCell
             key={headCell.id}
             align='right'
-            padding='none'
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
