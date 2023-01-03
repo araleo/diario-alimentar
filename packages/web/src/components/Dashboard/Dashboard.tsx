@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 
 import { BUTTONS } from '../../constants/texts';
-import AppForm from '../AppForm/AppForm';
+import MealForm from '../MealForm/MealForm';
 import MealsTable from '../MealsTable/MealsTable';
 import FlexEndBox from '../UI/containers/FlexEndBox';
 
@@ -23,7 +23,7 @@ const Dashboard = () => {
           </Button>
         </FlexEndBox>
       )}
-      {showForm && <AppForm toggleForm={toggleForm} />}
+      {showForm && <MealForm toggleForm={toggleForm} />}
       <MealsTable />
     </Box>
   );

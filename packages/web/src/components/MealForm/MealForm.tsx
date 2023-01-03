@@ -47,7 +47,7 @@ type Props = {
   toggleForm: () => void;
 };
 
-const AppForm = ({ toggleForm }: Props) => {
+const MealForm = ({ toggleForm }: Props) => {
   const {
     control,
     handleSubmit,
@@ -145,4 +145,4 @@ const AppForm = ({ toggleForm }: Props) => {
   );
 };
 
-export default AppForm;
+export default MealForm;
