@@ -3,7 +3,6 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 
 import TextInput from '../Input/TextInput';
 import DateTimeInput from '../Input/DateTimeInput';
@@ -11,9 +10,9 @@ import CheckboxInput from '../Input/CheckboxInput';
 import { MealData } from '../../@types/meal-data';
 import SpaceBetweenBox from '../UI/containers/SpaceBetweenBox';
 import FlexRowBox from '../UI/containers/FlexRowBox';
-import { BUTTONS, ERRORS, LABELS } from '../../constants/texts';
-import SpaceAroundBox from '../UI/containers/SpaceAroundBox';
+import { ERRORS, LABELS } from '../../constants/texts';
 import AppIconButton from '../UI/AppIconButton/AppIconButton';
+import FormButtons from '../FormButtons/FormButtons';
 
 type FormData = MealData;
 
@@ -48,7 +47,6 @@ type Props = {
   toggleForm: () => void;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const AppForm = ({ toggleForm }: Props) => {
   const {
     control,
@@ -141,15 +139,7 @@ const AppForm = ({ toggleForm }: Props) => {
             </FlexRowBox>
           </Stack>
         </SpaceBetweenBox>
-
-        <SpaceAroundBox sx={{ width: '50%', margin: '2rem auto' }}>
-          <Button type='button' variant='outlined' onClick={() => reset()}>
-            {BUTTONS.reset}
-          </Button>
-          <Button type='submit' variant='contained'>
-            {BUTTONS.submit}
-          </Button>
-        </SpaceAroundBox>
+        <FormButtons resetCallback={reset} />
       </form>
     </>
   );
