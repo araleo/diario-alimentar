@@ -1,21 +1,29 @@
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { useState } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
 import ROUTES from './constants/routes';
-
-import Login from './pages/Login/Login';
+import Landing from './pages/Landing/Landing';
 import Main from './pages/Main/Main';
-import Signup from './pages/Signup/Signup';
-import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
+import SignIn from './pages/SignIn/SignIn';
+import SignUp from './pages/SignUp/SignUp';
+import { auth } from './services/firebase';
 
-const App = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<Outlet />} />
-      <Route index element={<Main />} />
-      <Route path={ROUTES.signIn} element={<Login />} />
-      <Route path={ROUTES.signUp} element={<Signup />} />
-      <Route path={ROUTES.verifyEmail} element={<VerifyEmail />} />
-    </Routes>
-  </BrowserRouter>
-);
+const App = () => {
+  const [user, setUser] = useState<User | null>(null);
 
+  onAuthStateChanged(auth, userData => setUser(userData));
+
+  // eslint-disable-next-line no-console
+  console.log(user);
+
+  const router = createBrowserRouter([
+    { path: '/', element: <Landing /> },
+    { path: ROUTES.signIn, element: <SignIn /> },
+    { path: ROUTES.signUp, element: <SignUp /> },
+    { path: ROUTES.main, element: <Main /> },
+  ]);
+
+  return <RouterProvider router={router} />;
+};
 export default App;

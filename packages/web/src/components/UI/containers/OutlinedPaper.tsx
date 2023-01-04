@@ -1,18 +1,19 @@
 import { useTheme } from '@mui/material/styles';
 import Paper, { PaperProps } from '@mui/material/Paper';
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
   paperProps?: PaperProps;
+  style?: CSSProperties;
 };
 
-const OutlinedPaper = ({ children, paperProps }: Props) => {
+const OutlinedPaper = ({ children, paperProps, style }: Props) => {
   const theme = useTheme();
   const border = `1px solid ${theme.palette.primary.main}`;
 
   return (
-    <Paper sx={{ padding: '1rem', border }} {...paperProps}>
+    <Paper {...paperProps} sx={{ padding: '2rem', border, ...style }}>
       {children}
     </Paper>
   );

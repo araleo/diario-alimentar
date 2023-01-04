@@ -1,11 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { useEffect } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
-import isStrongPassword from 'validator/lib/isStrongPassword';
 import { z } from 'zod';
 
 import ROUTES from '../../constants/routes';
@@ -18,13 +16,11 @@ import CenterBox from '../UI/containers/CenterBox';
 type FormData = {
   email: string;
   password: string;
-  confirmPassword: string;
 };
 
 const defaultValues: FormData = {
   email: '',
   password: '',
-  confirmPassword: '',
 };
 
 const schema = z.object({
@@ -32,54 +28,26 @@ const schema = z.object({
     .string()
     .min(1, { message: ERRORS.required })
     .refine(val => isEmail(val), { message: ERRORS.invalidEmail }),
-  password: z
-    .string()
-    .min(1, { message: ERRORS.required })
-    .refine(val => isStrongPassword(val), { message: ERRORS.weakPassword }),
-  confirmPassword: z
-    .string()
-    .min(1, { message: ERRORS.required })
-    .refine(val => isStrongPassword(val), { message: ERRORS.weakPassword }),
+  password: z.string().min(1, { message: ERRORS.required }),
 });
 
-const SignUpForm = () => {
-  const navigate = useNavigate();
-
+const SignInForm = () => {
   const {
     control,
     formState: { errors },
     handleSubmit,
-    setError,
   } = useForm<FormData>({
     defaultValues,
     resolver: zodResolver(schema),
   });
 
-  const { isLoading, errors: firebaseError, createUser } = useFirebase();
+  const { isLoading, errors: firebaseError, signIn } = useFirebase();
 
-  const [password, confirmPassword] = useWatch({
-    control,
-    name: ['password', 'confirmPassword'],
-  });
-
-  useEffect(() => {
-    let message = '';
-    if (password && confirmPassword && password !== confirmPassword) {
-      message = ERRORS.pwsDontMatch;
-    }
-    setError('confirmPassword', { message });
-  }, [password, confirmPassword, setError]);
-
-  const parseFirebaseError = () => {
-    if (firebaseError.includes('email-already-in-use')) {
-      return ERRORS.emailInUse;
-    }
-    return ERRORS.signUpError;
-  };
+  const navigate = useNavigate();
 
   const onSubmit = (data: FormData) => {
     const submitCallback = () => navigate(ROUTES.main);
-    createUser({ email: data.email, password: data.password }, submitCallback);
+    signIn({ email: data.email, password: data.password }, submitCallback);
   };
 
   return (
@@ -95,22 +63,20 @@ const SignUpForm = () => {
           fieldProps={{ label: LABELS.password }}
           fieldError={errors.password}
         />
-        <TextInput
-          controllerProps={{ name: 'confirmPassword', control }}
-          fieldProps={{ label: LABELS.confirmPassword }}
-          fieldError={errors.confirmPassword}
-        />
       </Stack>
       {firebaseError && (
         <Typography color='error' sx={{ marginTop: '1rem' }}>
-          {parseFirebaseError()}
+          {ERRORS.signInError}
         </Typography>
       )}
+      <Typography sx={{ textAlign: 'right' }}>
+        {LABELS.forgotPassword}
+      </Typography>
       <CenterBox sx={{ marginTop: '2rem' }}>
-        <SubmitButton label={BUTTONS.signUp} disabled={isLoading} />
+        <SubmitButton disabled={isLoading} label={BUTTONS.signIn} />
       </CenterBox>
     </form>
   );
 };
 
-export default SignUpForm;
+export default SignInForm;
