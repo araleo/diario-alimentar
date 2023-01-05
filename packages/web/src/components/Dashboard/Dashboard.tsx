@@ -1,3 +1,4 @@
+import { Divider } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
@@ -19,11 +20,16 @@ const Dashboard = () => {
       {!showForm && (
         <FlexEndBox sx={{ marginBottom: '2rem' }}>
           <Button variant='contained' onClick={toggleForm}>
-            {BUTTONS.new}
+            {BUTTONS.newMeal}
           </Button>
         </FlexEndBox>
       )}
-      {showForm && <MealForm toggleForm={toggleForm} />}
+      {showForm && (
+        <>
+          <MealForm toggleForm={toggleForm} />
+          <Divider sx={{ margin: '2rem 0' }} />
+        </>
+      )}
       <MealsTable />
     </Box>
   );

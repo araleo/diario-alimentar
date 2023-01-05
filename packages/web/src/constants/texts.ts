@@ -7,6 +7,7 @@ export const BUTTONS = {
   alreadyHaveAccount: 'Já tenho uma conta',
   createAccount: 'Criar nova conta',
   new: 'Novo',
+  newMeal: 'Adicionar refeição',
   reset: 'Limpar',
   signIn: 'Entrar',
   signUp: 'Cadastre-se',
@@ -21,6 +22,8 @@ export const LABELS = {
   forgotPassword: 'Esqueci minha senha',
   hunger: 'O quanto estava com fome?',
   meal: 'Alimento',
+  myMeals: 'Minha alimentação',
+  no: 'Não',
   password: 'Senha',
   quantity: 'Quantidade',
   reason: 'Motivo ou gatilho',
@@ -31,6 +34,7 @@ export const LABELS = {
   wasWanted: 'Comi o que gostaria?',
   where: 'Onde',
   whoWith: 'Com quem',
+  yes: 'Sim',
 };
 
 export const ERRORS = {

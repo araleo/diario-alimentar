@@ -14,6 +14,7 @@ import { Order } from '../../@types/order';
 import AppTableHead from './AppTableHead';
 import { DUMMY_DATA, getComparator } from './table-utils';
 import TableToolbar from './TableToolbar';
+import { LABELS } from '../../constants/texts';
 
 const rows: MealData[] = DUMMY_DATA;
 
@@ -77,7 +78,7 @@ const MealsTable = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableToolbar numSelected={selected.length} />
+        <TableToolbar />
         <TableContainer>
           <Table sx={{ minWidth: 750 }}>
             <AppTableHead
@@ -113,7 +114,7 @@ const MealsTable = () => {
                       <TableCell align='right'>{row.where}</TableCell>
                       <TableCell align='right'>{row.who}</TableCell>
                       <TableCell align='right'>
-                        {row.wasWanted ? 'Sim' : 'Não'}
+                        {row.wasWanted ? LABELS.yes : LABELS.no}
                       </TableCell>
                       <TableCell align='right'>{row.wanted}</TableCell>
                       <TableCell align='right'>{row.hunger}</TableCell>
@@ -124,7 +125,7 @@ const MealsTable = () => {
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 33 * emptyRows }}>
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={11} />
                 </TableRow>
               )}
             </TableBody>
