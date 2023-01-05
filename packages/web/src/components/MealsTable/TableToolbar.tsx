@@ -21,7 +21,6 @@ const TableToolbar = () => (
         <DeleteIcon />
       </IconButton>
     </Tooltip>
-    x
   </Toolbar>
 );
 
