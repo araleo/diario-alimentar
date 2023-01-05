@@ -40,6 +40,7 @@ export const ERRORS = {
   required: 'Campo obrigatório',
   signInError: 'Email ou senha inválidos',
   signUpError: 'Error ao criar usuário',
+  userNotFound: 'User not found',
   weakPassword:
     'A senha deve conter no mínimo 8 caracters, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
 };

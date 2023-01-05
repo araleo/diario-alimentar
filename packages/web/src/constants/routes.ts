@@ -1,8 +1,6 @@
 const ROUTES = {
-  main: '/dashboard',
-  signIn: '/login',
-  signUp: '/cadastro',
-  verifyEmail: '/verificar-email',
+  main: '/',
+  dashboard: '/dashboard',
 };
 
 export default ROUTES;

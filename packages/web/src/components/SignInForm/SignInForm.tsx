@@ -46,7 +46,7 @@ const SignInForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data: FormData) => {
-    const submitCallback = () => navigate(ROUTES.main);
+    const submitCallback = () => navigate(ROUTES.dashboard);
     signIn({ email: data.email, password: data.password }, submitCallback);
   };
 
@@ -69,7 +69,7 @@ const SignInForm = () => {
           {ERRORS.signInError}
         </Typography>
       )}
-      <Typography sx={{ textAlign: 'right' }}>
+      <Typography sx={{ textAlign: 'right', marginTop: '1rem' }}>
         {LABELS.forgotPassword}
       </Typography>
       <CenterBox sx={{ marginTop: '2rem' }}>

@@ -1,27 +1,59 @@
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { useState } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from 'react-router-dom';
 
 import ROUTES from './constants/routes';
+import { ERRORS } from './constants/texts';
 import Landing from './pages/Landing/Landing';
-import Main from './pages/Main/Main';
-import SignIn from './pages/SignIn/SignIn';
-import SignUp from './pages/SignUp/SignUp';
 import { auth } from './services/firebase';
+import Main from './pages/Main/Main';
 
 const App = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const authStatePromise = () =>
+    new Promise((resolve, reject) => {
+      onAuthStateChanged(auth, userData => {
+        if (userData === null) {
+          return reject(new Error(ERRORS.userNotFound));
+        }
+        return resolve(userData);
+      });
+    });
 
-  onAuthStateChanged(auth, userData => setUser(userData));
+  const redirectIfNotLoggedIn = async () => {
+    try {
+      await authStatePromise();
+    } catch (error) {
+      redirect(ROUTES.main);
+    }
+    return null;
+  };
 
-  // eslint-disable-next-line no-console
-  console.log(user);
+  const redirectIfLoggedIn = async () => {
+    try {
+      const user = await authStatePromise();
+      if (user) {
+        return redirect(ROUTES.dashboard);
+      }
+    } catch (error) {
+      return null;
+    }
+    return null;
+  };
 
   const router = createBrowserRouter([
-    { path: '/', element: <Landing /> },
-    { path: ROUTES.signIn, element: <SignIn /> },
-    { path: ROUTES.signUp, element: <SignUp /> },
-    { path: ROUTES.main, element: <Main /> },
+    {
+      path: ROUTES.main,
+      element: <Landing />,
+      loader: redirectIfLoggedIn,
+    },
+    {
+      path: ROUTES.dashboard,
+      element: <Main />,
+      loader: redirectIfNotLoggedIn,
+    },
   ]);
 
   return <RouterProvider router={router} />;
