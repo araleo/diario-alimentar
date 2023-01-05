@@ -9,10 +9,10 @@ import DateTimeInput from '../Input/DateTimeInput';
 import CheckboxInput from '../Input/CheckboxInput';
 import { MealData } from '../../@types/meal-data';
 import SpaceBetweenBox from '../UI/containers/SpaceBetweenBox';
-import FlexRowBox from '../UI/containers/FlexRowBox';
 import { ERRORS, LABELS } from '../../constants/texts';
 import AppIconButton from '../UI/AppIconButton/AppIconButton';
 import FormButtons from '../FormButtons/FormButtons';
+import FlexEndBox from '../UI/containers/FlexEndBox';
 
 type FormData = MealData;
 
@@ -65,22 +65,20 @@ const MealForm = ({ toggleForm }: Props) => {
 
   return (
     <>
-      <AppIconButton
-        icon='close'
-        buttonProps={{ onClick: toggleForm, sx: { float: 'right' } }}
-      />
+      <FlexEndBox>
+        <AppIconButton icon='close' buttonProps={{ onClick: toggleForm }} />
+      </FlexEndBox>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DateTimeInput
-          label={LABELS.datetime}
-          controllerProps={{
-            name: 'datetime',
-            control,
-            defaultValue: dayjs().toString(),
-          }}
-          textFieldProps={{ sx: { width: '45%' } }}
-        />
         <SpaceBetweenBox>
           <Stack sx={{ width: '45%' }}>
+            <DateTimeInput
+              label={LABELS.datetime}
+              controllerProps={{
+                name: 'datetime',
+                control,
+                defaultValue: dayjs().toString(),
+              }}
+            />
             <TextInput
               controllerProps={{ name: 'meal', control }}
               fieldProps={{ label: LABELS.meal }}
@@ -106,6 +104,15 @@ const MealForm = ({ toggleForm }: Props) => {
             />
           </Stack>
           <Stack sx={{ width: '45%' }}>
+            <CheckboxInput
+              label={LABELS.wasWanted}
+              controllerProps={{ name: 'wasWanted', control }}
+            />
+            <TextInput
+              controllerProps={{ name: 'wanted', control }}
+              fieldProps={{ label: LABELS.wanted, disabled: wasWanted }}
+              fieldError={errors.wanted}
+            />
             <TextInput
               controllerProps={{ name: 'hunger', control }}
               fieldProps={{ label: LABELS.hunger }}
@@ -123,20 +130,6 @@ const MealForm = ({ toggleForm }: Props) => {
               fieldProps={{ label: LABELS.feeling }}
               fieldError={errors.reason}
             />
-
-            <FlexRowBox>
-              <CheckboxInput
-                label={LABELS.wasWanted}
-                controllerProps={{ name: 'wasWanted', control }}
-              />
-              {!wasWanted && (
-                <TextInput
-                  controllerProps={{ name: 'wanted', control }}
-                  fieldProps={{ label: LABELS.wanted, sx: { width: '100' } }}
-                  fieldError={errors.wanted}
-                />
-              )}
-            </FlexRowBox>
           </Stack>
         </SpaceBetweenBox>
         <FormButtons resetCallback={reset} />

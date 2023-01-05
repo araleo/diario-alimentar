@@ -17,7 +17,7 @@ export const LABELS = {
   confirmPassword: 'Confirmar senha',
   datetime: 'Dia e hora',
   email: 'Email',
-  feeling: 'Como me senti',
+  feeling: 'Como me senti depois',
   forgotPassword: 'Esqueci minha senha',
   hunger: 'O quanto estava com fome?',
   meal: 'Alimento',
@@ -35,6 +35,7 @@ export const LABELS = {
 
 export const ERRORS = {
   emailInUse: 'Esse email já está sendo utilizado',
+  invalidDatetime: 'Data inválida',
   invalidEmail: 'Email inválido',
   pwsDontMatch: 'As senhas devem ser iguais',
   required: 'Campo obrigatório',
