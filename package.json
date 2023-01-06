@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest",
     "dev:api": "yarn workspace @diario-alimentar/server dev",
-    "dev:web": "yarn workspace @diario-alimentar/web start"
+    "dev:web": "yarn workspace @diario-alimentar/web start",
+    "dev": "concurrently \"yarn dev:api\" \"yarn dev:web\""
   },
   "private": true,
   "workspaces": {

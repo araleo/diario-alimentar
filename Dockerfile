@@ -10,6 +10,8 @@ RUN corepack enable
 
 RUN yarn
 
+EXPOSE 3000
+
 EXPOSE 3001
 
-CMD ["yarn", "dev:api"]
+CMD ["yarn", "dev"]
