@@ -6,17 +6,18 @@ import {
   getMealById,
   updateMeal,
 } from '../controllers/meals';
+import isAuthorized from '../middlewares/authorization';
 
 const router = Router();
 
-router.post('', createMeal);
+router.post('', isAuthorized, createMeal);
 
-router.get('', getAllUserMeals);
+router.get('', isAuthorized, getAllUserMeals);
 
-router.get('/:id', getMealById);
+router.get('/:id', isAuthorized, getMealById);
 
-router.put('/:id', updateMeal);
+router.put('/:id', isAuthorized, updateMeal);
 
-router.delete('/:id', deleteMeal);
+router.delete('/:id', isAuthorized, deleteMeal);
 
 export default router;

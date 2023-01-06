@@ -5,8 +5,6 @@ import app from './app';
 
 const mongoUri = process.env.MONGO_URI || '';
 
-console.log(mongoUri);
-
 mongoose
   .connect(mongoUri)
   .then(() => {

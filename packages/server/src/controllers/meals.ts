@@ -5,7 +5,8 @@ import Meal, { MealData } from '../models/meal';
 
 export const createMeal: RequestHandler = async (req, res) => {
   const data = req.body as MealData;
-  const newMeal = new Meal(data);
+  const { userId } = res.locals;
+  const newMeal = new Meal({ ...data, userId });
 
   try {
     const meal = await newMeal.save();
@@ -15,8 +16,8 @@ export const createMeal: RequestHandler = async (req, res) => {
   }
 };
 
-export const getAllUserMeals: RequestHandler = async (req, res) => {
-  const { id: userId } = req.params;
+export const getAllUserMeals: RequestHandler = async (_, res) => {
+  const { userId } = res.locals;
   try {
     const meals = await Meal.find({ userId });
     res.status(201).json({ meals });
@@ -26,10 +27,10 @@ export const getAllUserMeals: RequestHandler = async (req, res) => {
 };
 
 export const getMealById: RequestHandler = async (req, res) => {
-  // add check to only get the meal for the logged in user
   const { id } = req.params;
+  const { userId } = res.locals;
   try {
-    const meal = await Meal.findById(id);
+    const meal = await Meal.find({ _id: id, userId });
     if (meal === null) {
       return res.status(404).json({});
     }
@@ -40,11 +41,13 @@ export const getMealById: RequestHandler = async (req, res) => {
 };
 
 export const updateMeal: RequestHandler = async (req, res) => {
-  // add check to only get the meal for the logged in user
   const { id } = req.params;
+  const { userId } = res.locals;
   const data = req.body as MealData;
   try {
-    const meal = await Meal.findByIdAndUpdate(id, data, { new: true });
+    const meal = await Meal.findOneAndUpdate({ _id: id, userId }, data, {
+      new: true,
+    });
     if (meal === null) {
       return res.status(404).json({});
     }
@@ -55,10 +58,10 @@ export const updateMeal: RequestHandler = async (req, res) => {
 };
 
 export const deleteMeal: RequestHandler = async (req, res) => {
-  // add check to only get the meal for the logged in user
   const { id } = req.params;
+  const { userId } = res.locals;
   try {
-    const meal = await Meal.findByIdAndDelete(id);
+    const meal = await Meal.findOneAndDelete({ _id: id, userId });
     if (meal === null) {
       return res.status(404).json({});
     }
