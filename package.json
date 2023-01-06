@@ -5,7 +5,6 @@
   "scripts": {
     "test": "jest",
     "dev:api": "yarn workspace @diario-alimentar/server dev",
-    "dev:mobile": "yarn workspace @diario-alimentar/mobile start",
     "dev:web": "yarn workspace @diario-alimentar/web start"
   },
   "private": true,
@@ -16,7 +15,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@diario-alimentar/config": "*",
+    "link:@diario-alimentar/config": "*",
     "@types/jest": "^29.2.4",
     "jest": "^29.3.1",
     "ts-jest": "^29.0.3",

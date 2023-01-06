@@ -30,6 +30,8 @@ module.exports = {
     'import/extensions': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
     'no-console': [2, { allow: ['warn', 'error'] }],
+    'no-underscore-dangle': 0,
+    'consistent-return': 0,
     'react/jsx-props-no-spreading': 0,
     'react/require-default-props': 0,
     'react/prop-types': 0,
