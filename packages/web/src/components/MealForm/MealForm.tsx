@@ -3,6 +3,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import Stack from '@mui/material/Stack';
+import useSWRMutation from 'swr/mutation';
 
 import TextInput from '../Input/TextInput';
 import DateTimeInput from '../Input/DateTimeInput';
@@ -13,6 +14,7 @@ import { ERRORS, LABELS } from '../../constants/texts';
 import AppIconButton from '../UI/AppIconButton/AppIconButton';
 import FormButtons from '../FormButtons/FormButtons';
 import FlexEndBox from '../UI/containers/FlexEndBox';
+import appAxios from '../../app-axios';
 
 type FormData = MealData;
 
@@ -43,6 +45,11 @@ const schema = z.object({
   feeling: z.string().min(1, { message: ERRORS.required }),
 });
 
+const sendRequest = async (url: string, { arg }: { arg: MealData }) => {
+  const res = await appAxios.post(url, arg);
+  return res.data;
+};
+
 type Props = {
   toggleForm: () => void;
 };
@@ -60,8 +67,9 @@ const MealForm = ({ toggleForm }: Props) => {
 
   const wasWanted = useWatch({ control, name: 'wasWanted' });
 
-  // eslint-disable-next-line
-  const onSubmit = (data: FormData) => console.log(data);
+  const { trigger, isMutating } = useSWRMutation('/meals', sendRequest);
+
+  const onSubmit = (data: FormData) => trigger(data);
 
   return (
     <>
@@ -132,7 +140,7 @@ const MealForm = ({ toggleForm }: Props) => {
             />
           </Stack>
         </SpaceBetweenBox>
-        <FormButtons resetCallback={reset} />
+        <FormButtons resetCallback={reset} disabled={isMutating} />
       </form>
     </>
   );

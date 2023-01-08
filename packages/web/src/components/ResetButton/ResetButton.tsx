@@ -4,10 +4,16 @@ import { BUTTONS } from '../../constants/texts';
 
 type Props = {
   callback: () => void;
+  disabled?: boolean;
 };
 
-const ResetButton = ({ callback }: Props) => (
-  <Button type='button' variant='outlined' onClick={callback}>
+const ResetButton = ({ callback, disabled }: Props) => (
+  <Button
+    type='button'
+    variant='outlined'
+    onClick={callback}
+    disabled={!!disabled}
+  >
     {BUTTONS.reset}
   </Button>
 );

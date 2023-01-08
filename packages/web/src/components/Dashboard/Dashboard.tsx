@@ -11,9 +11,9 @@ import MealsTable from '../MealsTable/MealsTable';
 import FlexEndBox from '../UI/containers/FlexEndBox';
 
 const Dashboard = () => {
-  const { data, error, isLoading } = useMeals();
+  const { data: meals, error, isLoading } = useMeals();
 
-  console.log(data);
+  console.log(meals);
   console.log(error);
   console.log(isLoading);
 
@@ -38,7 +38,7 @@ const Dashboard = () => {
           <Divider sx={{ margin: '2rem 0' }} />
         </>
       )}
-      <MealsTable />
+      <MealsTable meals={meals || []} />
     </Box>
   );
 };

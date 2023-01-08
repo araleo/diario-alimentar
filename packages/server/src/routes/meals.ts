@@ -20,14 +20,7 @@ router.post('', isAuthorized, mealBodyValidators, validateRequest, createMeal);
 
 router.get('', isAuthorized, getAllUserMeals);
 
-router.get(
-  '/:id',
-  isAuthorized,
-  idValidators,
-  mealBodyValidators,
-  validateRequest,
-  getMealById
-);
+router.get('/:id', isAuthorized, idValidators, validateRequest, getMealById);
 
 router.put(
   '/:id',

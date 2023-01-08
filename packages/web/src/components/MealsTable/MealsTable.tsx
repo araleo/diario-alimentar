@@ -12,13 +12,15 @@ import TableRow from '@mui/material/TableRow';
 import { MealData } from '../../@types/meal-data';
 import { Order } from '../../@types/order';
 import AppTableHead from './AppTableHead';
-import { DUMMY_DATA, getComparator } from './table-utils';
+import { getComparator } from './table-utils';
 import TableToolbar from './TableToolbar';
 import { LABELS } from '../../constants/texts';
 
-const rows: MealData[] = DUMMY_DATA;
+type Props = {
+  meals: MealData[];
+};
 
-const MealsTable = () => {
+const MealsTable = ({ meals }: Props) => {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof MealData>('datetime');
   const [selected, setSelected] = useState<readonly string[]>([]);
@@ -33,7 +35,7 @@ const MealsTable = () => {
 
   const handleSelectAllClick = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map(n => n.id);
+      const newSelected = meals.map(n => n.id);
       setSelected(newSelected);
       return;
     }
@@ -73,7 +75,7 @@ const MealsTable = () => {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - meals.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -87,39 +89,39 @@ const MealsTable = () => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={meals.length}
             />
             <TableBody>
-              {rows
+              {meals
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .sort(getComparator(order, orderBy))
-                .map(row => {
-                  const isItemSelected = isSelected(row.id);
+                .map(meal => {
+                  const isItemSelected = isSelected(meal.id);
 
                   return (
                     <TableRow
                       hover
-                      onClick={event => handleClick(event, row.id)}
+                      onClick={event => handleClick(event, meal.id)}
                       role='checkbox'
                       tabIndex={-1}
-                      key={row.id}
+                      key={meal.id}
                       selected={isItemSelected}
                     >
                       <TableCell padding='checkbox'>
                         <Checkbox color='primary' checked={isItemSelected} />
                       </TableCell>
-                      <TableCell align='right'>{row.datetime}</TableCell>
-                      <TableCell align='right'>{row.meal}</TableCell>
-                      <TableCell align='right'>{row.quantity}</TableCell>
-                      <TableCell align='right'>{row.where}</TableCell>
-                      <TableCell align='right'>{row.who}</TableCell>
+                      <TableCell align='right'>{meal.datetime}</TableCell>
+                      <TableCell align='right'>{meal.meal}</TableCell>
+                      <TableCell align='right'>{meal.quantity}</TableCell>
+                      <TableCell align='right'>{meal.where}</TableCell>
+                      <TableCell align='right'>{meal.who}</TableCell>
                       <TableCell align='right'>
-                        {row.wasWanted ? LABELS.yes : LABELS.no}
+                        {meal.wasWanted ? LABELS.yes : LABELS.no}
                       </TableCell>
-                      <TableCell align='right'>{row.wanted}</TableCell>
-                      <TableCell align='right'>{row.hunger}</TableCell>
-                      <TableCell align='right'>{row.reason}</TableCell>
-                      <TableCell align='right'>{row.feeling}</TableCell>
+                      <TableCell align='right'>{meal.wanted}</TableCell>
+                      <TableCell align='right'>{meal.hunger}</TableCell>
+                      <TableCell align='right'>{meal.reason}</TableCell>
+                      <TableCell align='right'>{meal.feeling}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -134,7 +136,7 @@ const MealsTable = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component='div'
-          count={rows.length}
+          count={meals.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

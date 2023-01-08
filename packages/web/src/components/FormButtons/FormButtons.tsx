@@ -6,15 +6,16 @@ import SpaceAroundBox from '../UI/containers/SpaceAroundBox';
 type Props = {
   resetCallback: () => void;
   containerProps?: BoxProps;
+  disabled?: boolean;
 };
 
-const FormButtons = ({ resetCallback, containerProps }: Props) => (
+const FormButtons = ({ resetCallback, containerProps, disabled }: Props) => (
   <SpaceAroundBox
     sx={{ width: '50%', margin: '2rem auto' }}
     {...containerProps}
   >
-    <ResetButton callback={resetCallback} />
-    <SubmitButton />
+    <ResetButton disabled={disabled} callback={resetCallback} />
+    <SubmitButton disabled={disabled} />
   </SpaceAroundBox>
 );
 
