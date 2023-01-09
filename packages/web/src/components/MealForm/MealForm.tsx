@@ -39,7 +39,7 @@ const schema = z.object({
   where: z.string().min(1, { message: ERRORS.required }),
   who: z.string().min(1, { message: ERRORS.required }),
   wasWanted: z.boolean(),
-  wanted: z.string().min(1, { message: ERRORS.required }),
+  wanted: z.string(),
   hunger: z.string().min(1, { message: ERRORS.required }),
   reason: z.string().min(1, { message: ERRORS.required }),
   feeling: z.string().min(1, { message: ERRORS.required }),

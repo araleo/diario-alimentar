@@ -41,12 +41,7 @@ export const mealBodyValidators = [
     .notEmpty()
     .isBoolean()
     .withMessage(ERRORS.invalidWasWanted),
-  body('wanted')
-    .optional()
-    .trim()
-    .escape()
-    .notEmpty()
-    .withMessage(ERRORS.invalidWanted),
+  body('wanted').optional().trim().escape(),
   body('hunger').trim().escape().notEmpty().withMessage(ERRORS.invalidHunger),
   body('reason').trim().escape().notEmpty().withMessage(ERRORS.invalidReason),
   body('feeling').trim().escape().notEmpty().withMessage(ERRORS.invalidFeeling),
