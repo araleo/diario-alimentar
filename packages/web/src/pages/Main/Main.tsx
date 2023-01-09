@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+
 import Dashboard from '../../components/Dashboard/Dashboard';
 import Title from '../../components/Title/Title';
 import CenterBox from '../../components/UI/containers/CenterBox';

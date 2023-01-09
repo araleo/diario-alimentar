@@ -1,5 +1,24 @@
 import { MealData } from '../../@types/meal-data';
 import { Order } from '../../@types/order';
+import { LABELS } from '../../constants/texts';
+
+export type HeadCell = {
+  id: keyof MealData;
+  label: string;
+};
+
+export const HEAD_CELLS: readonly HeadCell[] = [
+  { id: 'datetime', label: LABELS.datetime },
+  { id: 'meal', label: LABELS.meal },
+  { id: 'quantity', label: LABELS.quantity },
+  { id: 'where', label: LABELS.where },
+  { id: 'who', label: LABELS.whoWith },
+  { id: 'wasWanted', label: LABELS.wasWanted },
+  { id: 'wanted', label: LABELS.wanted },
+  { id: 'hunger', label: LABELS.hunger },
+  { id: 'reason', label: LABELS.reason },
+  { id: 'feeling', label: LABELS.feeling },
+];
 
 export const descendingComparator = <T>(a: T, b: T, orderBy: keyof T) => {
   if (b[orderBy] < a[orderBy]) {
@@ -22,58 +41,3 @@ export const getComparator = <Key extends keyof any>(
   order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
-
-export const DUMMY_DATA: MealData[] = [
-  {
-    id: '1',
-    datetime: '2022-01-01',
-    meal: 'Mecão',
-    quantity: '1',
-    where: 'Casa',
-    who: 'Belinha',
-    wasWanted: true,
-    wanted: 'Mecão',
-    hunger: 'Pouca',
-    reason: 'Gula',
-    feeling: 'Gordo',
-  },
-  {
-    id: '2',
-    datetime: '2022-01-02',
-    meal: 'BK',
-    quantity: '1',
-    where: 'Casa',
-    who: 'Belinha',
-    wasWanted: true,
-    wanted: 'BK',
-    hunger: 'Pouca',
-    reason: 'Gula',
-    feeling: 'Gordo',
-  },
-  {
-    id: '3',
-    datetime: '2022-01-03',
-    meal: 'Brasaria',
-    quantity: '1',
-    where: 'Casa',
-    who: 'Belinha',
-    wasWanted: true,
-    wanted: 'Brasaria',
-    hunger: 'Pouca',
-    reason: 'Gula',
-    feeling: 'Gordo',
-  },
-  {
-    id: '4',
-    datetime: '2022-01-01',
-    meal: 'Frango frito',
-    quantity: '1',
-    where: 'Casa',
-    who: 'Belinha',
-    wasWanted: true,
-    wanted: 'Frango frito',
-    hunger: 'Pouca',
-    reason: 'Gula',
-    feeling: 'Gordo',
-  },
-];

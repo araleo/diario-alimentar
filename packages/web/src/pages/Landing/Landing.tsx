@@ -10,10 +10,10 @@ import CenterBox from '../../components/UI/containers/CenterBox';
 import OutlinedPaper from '../../components/UI/containers/OutlinedPaper';
 import { APP_DESCRIPTION, BUTTONS } from '../../constants/texts';
 
-type PageModes = 'login' | 'signup';
+type PageMode = 'login' | 'signup';
 
 const Landing = () => {
-  const [mode, setMode] = useState<PageModes>('login');
+  const [mode, setMode] = useState<PageMode>('login');
 
   const handleModeChange = () => {
     setMode(currentMode => (currentMode === 'login' ? 'signup' : 'login'));
