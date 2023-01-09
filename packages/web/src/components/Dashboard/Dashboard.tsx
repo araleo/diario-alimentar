@@ -1,10 +1,11 @@
-/* eslint-disable no-console */
-import { Divider } from '@mui/material';
+import LinearProgress from '@mui/material/LinearProgress';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 
-import { BUTTONS } from '../../constants/texts';
+import { BUTTONS, ERRORS } from '../../constants/texts';
 import useMeals from '../../hooks/use-meals';
 import MealForm from '../MealForm/MealForm';
 import MealsTable from '../MealsTable/MealsTable';
@@ -12,10 +13,6 @@ import FlexEndBox from '../UI/containers/FlexEndBox';
 
 const Dashboard = () => {
   const { data: meals, error, isLoading } = useMeals();
-
-  console.log(meals);
-  console.log(error);
-  console.log(isLoading);
 
   const [showForm, setShowForm] = useState<boolean>(true);
 
@@ -38,7 +35,13 @@ const Dashboard = () => {
           <Divider sx={{ margin: '2rem 0' }} />
         </>
       )}
-      <MealsTable meals={meals || []} />
+      {isLoading ? (
+        <LinearProgress color='primary' />
+      ) : error ? (
+        <Typography>{ERRORS.unexpected}</Typography>
+      ) : (
+        <MealsTable meals={meals || []} />
+      )}
     </Box>
   );
 };

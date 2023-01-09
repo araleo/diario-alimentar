@@ -9,6 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import useSWRMutation from 'swr/mutation';
+import dayjs from 'dayjs';
 
 import { MealData } from '../../@types/meal-data';
 import { Order } from '../../@types/order';
@@ -90,7 +91,7 @@ const MealsTable = ({ meals }: Props) => {
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableToolbar
           deleteSelected={deleteSelected}
-          disableActions={isMutating}
+          disableActions={isMutating || selected.length === 0}
         />
         <TableContainer>
           <Table sx={{ minWidth: 750 }}>
@@ -108,6 +109,9 @@ const MealsTable = ({ meals }: Props) => {
                 .sort(getComparator(order, orderBy))
                 .map(meal => {
                   const isItemSelected = isSelected(meal.id);
+                  const mealDatetime = dayjs(meal.datetime)
+                    .locale('pt-BR')
+                    .format('DD/MM/YYYY HH:mm');
 
                   return (
                     <TableRow
@@ -121,7 +125,9 @@ const MealsTable = ({ meals }: Props) => {
                       <TableCell padding='checkbox'>
                         <Checkbox color='primary' checked={isItemSelected} />
                       </TableCell>
-                      <TableCell align='right'>{meal.datetime}</TableCell>
+                      <TableCell align='right'>
+                        {mealDatetime.toString()}
+                      </TableCell>
                       <TableCell align='right'>{meal.meal}</TableCell>
                       <TableCell align='right'>{meal.quantity}</TableCell>
                       <TableCell align='right'>{meal.where}</TableCell>

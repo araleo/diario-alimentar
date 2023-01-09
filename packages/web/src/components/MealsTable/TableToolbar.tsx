@@ -1,10 +1,9 @@
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 import { LABELS } from '../../constants/texts';
+import AppIconButton from '../UI/AppIconButton/AppIconButton';
 
 type Props = {
   disableActions: boolean;
@@ -21,10 +20,13 @@ const TableToolbar = ({ disableActions, deleteSelected }: Props) => (
     >
       {LABELS.myMeals}
     </Typography>
-    <Tooltip title='Delete'>
-      <IconButton onClick={deleteSelected} disabled={disableActions}>
-        <DeleteIcon />
-      </IconButton>
+    <Tooltip title={LABELS.deleteMeal}>
+      <span>
+        <AppIconButton
+          icon='delete'
+          buttonProps={{ onClick: deleteSelected, disabled: disableActions }}
+        />
+      </span>
     </Tooltip>
   </Toolbar>
 );

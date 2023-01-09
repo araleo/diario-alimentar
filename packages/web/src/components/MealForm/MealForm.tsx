@@ -64,7 +64,10 @@ const MealForm = ({ toggleForm }: Props) => {
 
   const { trigger, isMutating } = useSWRMutation('/meals', sendMealPostRequest);
 
-  const onSubmit = (data: FormData) => trigger(data);
+  const onSubmit = (data: FormData) => {
+    trigger(data);
+    reset();
+  };
 
   return (
     <>

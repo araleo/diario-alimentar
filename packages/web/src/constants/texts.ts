@@ -14,9 +14,24 @@ export const BUTTONS = {
   submit: 'Enviar',
 };
 
+export const ERRORS = {
+  emailInUse: 'Esse email já está sendo utilizado',
+  invalidDatetime: 'Data inválida',
+  invalidEmail: 'Email inválido',
+  pwsDontMatch: 'As senhas devem ser iguais',
+  required: 'Campo obrigatório',
+  signInError: 'Email ou senha inválidos',
+  signUpError: 'Error ao criar usuário',
+  unexpected: 'Ocorreu um erro inesperado',
+  userNotFound: 'User not found',
+  weakPassword:
+    'A senha deve conter no mínimo 8 caracters, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
+};
+
 export const LABELS = {
   confirmPassword: 'Confirmar senha',
   datetime: 'Dia e hora',
+  deleteMeal: 'Apagar refeição',
   email: 'Email',
   feeling: 'Como me senti depois',
   forgotPassword: 'Esqueci minha senha',
@@ -35,20 +50,6 @@ export const LABELS = {
   where: 'Onde',
   whoWith: 'Com quem',
   yes: 'Sim',
-};
-
-export const ERRORS = {
-  emailInUse: 'Esse email já está sendo utilizado',
-  invalidDatetime: 'Data inválida',
-  invalidEmail: 'Email inválido',
-  pwsDontMatch: 'As senhas devem ser iguais',
-  required: 'Campo obrigatório',
-  signInError: 'Email ou senha inválidos',
-  signUpError: 'Error ao criar usuário',
-  unexpected: 'Ocorreu um erro inesperado',
-  userNotFound: 'User not found',
-  weakPassword:
-    'A senha deve conter no mínimo 8 caracters, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
 };
 
 export const MESSAGES = {
