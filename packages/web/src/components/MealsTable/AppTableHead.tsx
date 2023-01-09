@@ -6,7 +6,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 
 import { MealData } from '../../@types/meal-data';
 import { Order } from '../../@types/order';
-import { HEAD_CELLS } from './head-cells';
+import { HEAD_CELLS } from './table-utils';
 
 type requestSortHandler = (
   event: React.MouseEvent<unknown>,
@@ -25,12 +25,12 @@ type Props = {
 };
 
 const AppTableHead = ({
+  numSelected,
+  onRequestSort,
   onSelectAllClick,
   order,
   orderBy,
-  numSelected,
   rowCount,
-  onRequestSort,
 }: Props) => {
   const createSortHandler =
     (property: keyof MealData) => (event: React.MouseEvent<unknown>) => {

@@ -8,6 +8,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import useSWRMutation from 'swr/mutation';
 
 import { MealData } from '../../@types/meal-data';
 import { Order } from '../../@types/order';
@@ -15,6 +16,7 @@ import AppTableHead from './AppTableHead';
 import { getComparator } from './table-utils';
 import TableToolbar from './TableToolbar';
 import { LABELS } from '../../constants/texts';
+import { sendMealDeleteRequest } from '../../lib/swr-requests';
 
 type Props = {
   meals: MealData[];
@@ -35,11 +37,11 @@ const MealsTable = ({ meals }: Props) => {
 
   const handleSelectAllClick = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = meals.map(n => n.id);
+      const newSelected = meals.map(meal => meal.id);
       setSelected(newSelected);
-      return;
+    } else {
+      setSelected([]);
     }
-    setSelected([]);
   };
 
   const handleClick = (_: MouseEvent<unknown>, id: string) => {
@@ -71,16 +73,25 @@ const MealsTable = ({ meals }: Props) => {
     setPage(0);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (mealId: string) => selected.indexOf(mealId) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - meals.length) : 0;
+  const { trigger, isMutating } = useSWRMutation(
+    '/meals',
+    sendMealDeleteRequest
+  );
+
+  const deleteSelected = () => {
+    selected.forEach(mealId => trigger(mealId));
+    setSelected([]);
+  };
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableToolbar />
+        <TableToolbar
+          deleteSelected={deleteSelected}
+          disableActions={isMutating}
+        />
         <TableContainer>
           <Table sx={{ minWidth: 750 }}>
             <AppTableHead
@@ -125,11 +136,6 @@ const MealsTable = ({ meals }: Props) => {
                     </TableRow>
                   );
                 })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 33 * emptyRows }}>
-                  <TableCell colSpan={11} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>

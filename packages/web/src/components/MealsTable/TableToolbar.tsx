@@ -6,7 +6,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import { LABELS } from '../../constants/texts';
 
-const TableToolbar = () => (
+type Props = {
+  disableActions: boolean;
+  deleteSelected: () => void;
+};
+
+const TableToolbar = ({ disableActions, deleteSelected }: Props) => (
   <Toolbar sx={{ pl: { sm: 2 }, pr: { xs: 1, sm: 1 } }}>
     <Typography
       sx={{ flex: '1 1 100%' }}
@@ -17,7 +22,7 @@ const TableToolbar = () => (
       {LABELS.myMeals}
     </Typography>
     <Tooltip title='Delete'>
-      <IconButton>
+      <IconButton onClick={deleteSelected} disabled={disableActions}>
         <DeleteIcon />
       </IconButton>
     </Tooltip>

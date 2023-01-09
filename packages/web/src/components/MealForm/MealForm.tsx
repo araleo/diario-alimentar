@@ -14,7 +14,7 @@ import { ERRORS, LABELS } from '../../constants/texts';
 import AppIconButton from '../UI/AppIconButton/AppIconButton';
 import FormButtons from '../FormButtons/FormButtons';
 import FlexEndBox from '../UI/containers/FlexEndBox';
-import appAxios from '../../app-axios';
+import { sendMealPostRequest } from '../../lib/swr-requests';
 
 type FormData = MealData;
 
@@ -45,11 +45,6 @@ const schema = z.object({
   feeling: z.string().min(1, { message: ERRORS.required }),
 });
 
-const sendRequest = async (url: string, { arg }: { arg: MealData }) => {
-  const res = await appAxios.post(url, arg);
-  return res.data;
-};
-
 type Props = {
   toggleForm: () => void;
 };
@@ -67,7 +62,7 @@ const MealForm = ({ toggleForm }: Props) => {
 
   const wasWanted = useWatch({ control, name: 'wasWanted' });
 
-  const { trigger, isMutating } = useSWRMutation('/meals', sendRequest);
+  const { trigger, isMutating } = useSWRMutation('/meals', sendMealPostRequest);
 
   const onSubmit = (data: FormData) => trigger(data);
 
