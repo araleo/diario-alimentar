@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { useState } from 'react';
@@ -34,6 +35,9 @@ const useFirebase = () => {
   };
 
   const signIn = async (userData: UserData, callback: Callback) => {
+    setIsLoading(true);
+    setErrors('');
+
     const { email, password } = userData;
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -42,9 +46,31 @@ const useFirebase = () => {
       const err = error as { message?: string };
       setErrors(err?.message || '');
     }
+
+    setIsLoading(false);
   };
 
-  return { isLoading, errors, createUser, signIn };
+  const resetPassword = async (email: string, callback: Callback) => {
+    setIsLoading(true);
+    setErrors('');
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      callback();
+    } catch (error) {
+      const errorResponse = error as { message?: string };
+      const err = errorResponse?.message || '';
+      if (err.includes('user-not-found')) {
+        callback();
+      } else {
+        setErrors(err);
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  return { isLoading, errors, createUser, signIn, resetPassword };
 };
 
 export default useFirebase;

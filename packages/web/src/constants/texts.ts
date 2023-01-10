@@ -9,6 +9,7 @@ export const BUTTONS = {
   new: 'Novo',
   newMeal: 'Adicionar refeição',
   reset: 'Limpar',
+  sendEmail: 'Enviar email',
   signIn: 'Entrar',
   signUp: 'Cadastre-se',
   submit: 'Enviar',
@@ -42,6 +43,8 @@ export const LABELS = {
   password: 'Senha',
   quantity: 'Quantidade',
   reason: 'Motivo ou gatilho',
+  sendResetEmail:
+    'Digite seu email para receber instruções para recuperar sua senha',
   signIn: 'Login',
   signUp: 'Cadastro',
   verifyEmail: 'Verifique seu email',
@@ -53,6 +56,6 @@ export const LABELS = {
 };
 
 export const MESSAGES = {
-  verificationEmailSent:
-    'Enviamos um email para confirmar a sua conta. Por favor verifique seu email e clique no link enviado',
+  recoverPasswordEmailSent:
+    'Se o email informado existir e estiver cadastrado, enviamos um email com as instruções para você recuperar sua senha',
 };

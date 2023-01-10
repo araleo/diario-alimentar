@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
 import { z } from 'zod';
+import { useTheme } from '@mui/material';
 
 import ROUTES from '../../constants/routes';
 import { BUTTONS, ERRORS, LABELS } from '../../constants/texts';
@@ -12,6 +13,7 @@ import useFirebase from '../../hooks/use-firebase';
 import TextInput from '../Input/TextInput';
 import SubmitButton from '../SubmitButton/SubmitButton';
 import CenterBox from '../UI/containers/CenterBox';
+import { AuthPageMode } from '../../@types/auth-page-mode';
 
 type FormData = {
   email: string;
@@ -31,7 +33,11 @@ const schema = z.object({
   password: z.string().min(1, { message: ERRORS.required }),
 });
 
-const SignInForm = () => {
+type Props = {
+  setPageMode: (mode: AuthPageMode) => void;
+};
+
+const SignInForm = ({ setPageMode }: Props) => {
   const {
     control,
     formState: { errors },
@@ -49,6 +55,8 @@ const SignInForm = () => {
     const submitCallback = () => navigate(ROUTES.dashboard);
     signIn({ email: data.email, password: data.password }, submitCallback);
   };
+
+  const theme = useTheme();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -69,7 +77,16 @@ const SignInForm = () => {
           {ERRORS.signInError}
         </Typography>
       )}
-      <Typography sx={{ textAlign: 'right', marginTop: '1rem' }}>
+      <Typography
+        onClick={() => setPageMode('resetPassword')}
+        sx={{
+          textAlign: 'right',
+          marginTop: '1rem',
+          cursor: 'pointer',
+          color: theme.palette.primary.main,
+          fontWeight: '500',
+        }}
+      >
         {LABELS.forgotPassword}
       </Typography>
       <CenterBox sx={{ marginTop: '2rem' }}>
